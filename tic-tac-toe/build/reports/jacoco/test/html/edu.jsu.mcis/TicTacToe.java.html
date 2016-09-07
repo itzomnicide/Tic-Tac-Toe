@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TicTacToe.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tic-tac-toe</a> &gt; <a href="index.source.html" class="el_package">edu.jsu.mcis</a> &gt; <span class="el_source">TicTacToe.java</span></div><h1>TicTacToe.java</h1><pre class="source lang-java linenums">package edu.jsu.mcis;
+
+
+
+
+import static java.lang.System.out;
+
+import java.util.Scanner;
+
+
+<span class="nc" id="L11">	public class TicTacToe {</span>
+<span class="fc" id="L12">	private static Scanner scan = new Scanner(System.in);</span>
+	public static int row, col;
+<span class="fc" id="L14">	public static char[][] board = new char[3][3];</span>
+<span class="fc" id="L15">	public static char who = 'X';</span>
+<span class="fc" id="L16">	public static int turns = 0;</span>
+<span class="fc" id="L17">	private static String wonHow = &quot;  &quot;;</span>
+	
+	public static void main(String[] args) {
+<span class="nc" id="L20">	NewGame();	</span>
+<span class="nc" id="L21">	}</span>
+		
+	private static void NewGame(){
+<span class="nc" id="L24">		ClearBoard();</span>
+<span class="nc" id="L25">		PrintBoard();</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">		while (StillRunning()){</span>
+<span class="nc" id="L27">		Winner();</span>
+<span class="nc" id="L28">		out.println();</span>
+<span class="nc" id="L29">		out.print(&quot;Player &quot; + who + &quot;,enter a row: &quot;);</span>
+<span class="nc" id="L30">		row = scan.nextInt()-1;</span>
+<span class="nc" id="L31">		out.print(&quot;Player &quot; + who + &quot;,enter a col: &quot;);</span>
+<span class="nc" id="L32">		col = scan.nextInt()-1;</span>
+<span class="nc" id="L33">		Mark(row, col);</span>
+<span class="nc" id="L34">		PrintBoard();</span>
+<span class="nc" id="L35">		GetWinner();</span>
+<span class="nc" id="L36">		Winner();</span>
+		}
+<span class="nc" id="L38">	}</span>
+	
+	public static void ClearBoard(){
+<span class="fc" id="L41">		turns = 0;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		for (int i = 0; i &lt; board.length; i++){</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">			for (int j = 0; j &lt; board.length; j++){</span>
+<span class="fc" id="L44">				board[i][j] = '_';</span>
+			}
+		}
+<span class="fc" id="L47">	}</span>
+	
+	private static void PrintBoard(){
+<span class="nc bnc" id="L50" title="All 2 branches missed.">		for (int i = 0; i &lt; 3; i++){</span>
+<span class="nc" id="L51">			out.println();</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">			for (int j = 0; j &lt; 3; j++){</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">				{if (board[i][j] == '_')</span>
+<span class="nc" id="L54">						out.print('_');</span>
+				else 
+<span class="nc" id="L56">					out.print(board[i][j]);</span>
+				}
+			}
+		}
+<span class="nc" id="L60">	}	</span>
+	
+	public static boolean IsBoardEmpty(){
+<span class="fc" id="L63">		boolean empty = true;</span>
+<span class="pc bpc" id="L64" title="10 of 20 branches missed.">		if (board[0][0] == board[0][1] </span>
+				&amp;&amp; board[0][0] == board[0][2]
+						&amp;&amp; board[0][2] == board[1][0] 
+								&amp;&amp;	board[1][0] == board[1][1]
+										&amp; board[1][0] == board[1][2]
+												&amp;&amp; board[1][2] == board[2][0]
+														&amp;&amp; board[2][0] == board[2][1]
+																&amp;&amp; board[2][0] == board[2][2]
+																		&amp;&amp; board[2][2] == '_'){
+<span class="fc" id="L73">			empty = true;</span>
+		}else {
+<span class="nc" id="L75">				empty = false;</span>
+		}
+<span class="fc" id="L77">		return empty;</span>
+		}
+	
+	public static void Mark( int rMove, int cMove){
+<span class="fc bfc" id="L81" title="All 2 branches covered.">		if (board[rMove][cMove] == '_'){</span>
+<span class="fc" id="L82">			board[rMove][cMove] = who;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">			 if (who == 'X'){</span>
+<span class="fc" id="L84">					who = 'O';</span>
+			 }
+			 else {
+<span class="fc" id="L87">					who = 'X';}</span>
+<span class="fc" id="L88">			 turns++;</span>
+		}
+
+		else {
+<span class="fc" id="L92">			UnableToMark();</span>
+<span class="fc" id="L93">			out.println(&quot;\n\n&quot; + UnableToMark());</span>
+		}
+<span class="fc" id="L95">	}</span>
+
+	public static String GetMark(int rMove, int cMove){
+<span class="nc" id="L98">		String character = Character.toString(board[rMove][cMove]);</span>
+<span class="nc" id="L99">		String location = character;</span>
+<span class="nc" id="L100">		return location;</span>
+	}
+	
+public static String CheckLocation(int rMove, int cMove){
+<span class="nc" id="L104">		String character = Character.toString(board[rMove][cMove]);</span>
+<span class="nc" id="L105">		String location =  character;</span>
+<span class="nc" id="L106">		return location;</span>
+	}
+	
+	public static String UnableToMark(){
+<span class="fc" id="L110">		return &quot;This tile has been taken.&quot;;		</span>
+	}
+	
+	public static boolean StillRunning(){
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">		if(turns == 9)</span>
+<span class="nc" id="L115">			return false;</span>
+		 else 
+<span class="fc" id="L117">			 return true;</span>
+		}
+	
+	private static boolean HorizontalWin(){
+<span class="pc bpc" id="L121" title="3 of 6 branches missed.">		if (board[0][0] == board[0][1] &amp;&amp; </span>
+				board[0][0] == board[0][2] &amp;&amp;
+				board[0][0] != '_')
+<span class="fc" id="L124">			return true;</span>
+<span class="nc bnc" id="L125" title="All 6 branches missed.">		if (board[1][0] == board[1][1] &amp;&amp; </span>
+				board[1][0] == board[1][2] &amp;&amp;
+				board[1][0] != '_')
+<span class="nc" id="L128">			return true;</span>
+<span class="nc bnc" id="L129" title="All 6 branches missed.">		if (board[2][0] == board[2][1] &amp;&amp; </span>
+				board[2][0] == board[2][2] &amp;&amp;
+				board[2][0] != '_'){
+<span class="nc" id="L132">			return true;</span>
+		}
+		else 
+<span class="nc" id="L135">			return false;</span>
+	}
+	
+	private static boolean VerticalWin(){
+<span class="nc bnc" id="L139" title="All 6 branches missed.">		if (board[0][0] == board[1][0] &amp;&amp; </span>
+				board[0][0] == board[2][0] &amp;&amp;
+				board[0][0] != '_' )
+<span class="nc" id="L142">			return true;</span>
+<span class="nc bnc" id="L143" title="All 6 branches missed.">		if (board[0][1] == board[1][1] &amp;&amp; </span>
+				board[0][1] == board[2][1] &amp;&amp;
+				board[0][1] != '_')
+<span class="nc" id="L146">			return true;</span>
+<span class="nc bnc" id="L147" title="All 6 branches missed.">		if (board[0][2] == board[1][2] &amp;&amp; </span>
+				board[0][2] == board[2][2] &amp;&amp;
+				board[0][2] != '_')
+<span class="nc" id="L150">			return true;</span>
+		else 
+<span class="nc" id="L152">			return false;</span>
+	}
+	
+	private static boolean DiagonalWin(){
+<span class="pc bpc" id="L156" title="5 of 6 branches missed.">		if (board[0][0] == board[1][1] &amp;&amp; </span>
+				board[0][0] == board[2][2] &amp;&amp;
+				board[0][0] != '_')
+<span class="nc" id="L159">			return true;</span>
+<span class="pc bpc" id="L160" title="5 of 6 branches missed.">		if (board[0][2] == board[1][1] &amp;&amp; </span>
+				board[0][2] == board[2][0] &amp;&amp;
+				board[0][2] != '_')
+<span class="nc" id="L163">			return true;</span>
+		else 
+<span class="fc" id="L165">			return false;</span>
+	}
+	
+	public static void GetWinner(){
+<span class="fc bfc" id="L169" title="All 2 branches covered.">		if (turns != 9){</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">				if (DiagonalWin()){</span>
+<span class="nc" id="L171">					wonHow = &quot;Diagonal&quot;;</span>
+<span class="nc" id="L172">					turns = 9;</span>
+				}
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">				else if (HorizontalWin()){</span>
+<span class="fc" id="L175">					wonHow = &quot;Horizontal&quot;;</span>
+<span class="fc" id="L176">					turns = 9;</span>
+				}
+<span class="nc bnc" id="L178" title="All 2 branches missed.">				else if (VerticalWin()){</span>
+<span class="nc" id="L179">					wonHow = &quot;Vertical&quot;;</span>
+<span class="nc" id="L180">					turns = 9;</span>
+				}	
+				
+		}
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">		else if (turns == 9){</span>
+<span class="fc" id="L185">			wonHow = &quot;Tie&quot;;</span>
+		}
+		
+<span class="fc" id="L188">		}</span>
+	
+	public static String Winner(){
+<span class="fc" id="L191">		String winner = &quot;&quot;;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (wonHow == &quot;Diagonal&quot;){</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		 if (who == 'X'){</span>
+<span class="nc" id="L194">				who = 'O';</span>
+		 }
+		 else {
+<span class="nc" id="L197">				who = 'X';}</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">			if (who == 'X'){</span>
+<span class="nc" id="L199">				winner = &quot;X&quot;;</span>
+			}else {
+<span class="nc" id="L201">				winner = &quot;O&quot;;</span>
+			}
+<span class="nc" id="L203">		 out.println(&quot;\nPlayer &quot; + who + &quot; won diagonally.&quot;);</span>
+		}
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		else if (wonHow == &quot;Horizontal&quot;){</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">			 if (who == 'X'){</span>
+<span class="nc" id="L207">					who = 'O';</span>
+			 }
+			 else {
+<span class="fc" id="L210">					who = 'X';}</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">				if (who == 'X'){</span>
+<span class="fc" id="L212">					winner = &quot;X&quot;;</span>
+				}else {
+<span class="nc" id="L214">					winner = &quot;O&quot;;</span>
+				}
+<span class="fc" id="L216">			 out.println(&quot;\nPlayer &quot; + who + &quot; won horizontally.&quot;);</span>
+			}
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">		else if (wonHow == &quot;Vertical&quot;){</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">			 if (who == 'X'){</span>
+<span class="nc" id="L220">					who = 'O';</span>
+			 }
+			 else {
+<span class="nc" id="L223">					who = 'X';}</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">				if (who == 'X'){</span>
+<span class="nc" id="L225">					winner = &quot;X&quot;;</span>
+				}else {
+<span class="nc" id="L227">					winner = &quot;O&quot;;</span>
+				}
+<span class="nc" id="L229">			 out.println(&quot;\nPlayer &quot; + who + &quot; won vertically.&quot;);</span>
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">			}else if (wonHow == &quot;Tie&quot;){</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">				 if (who == 'X'){</span>
+<span class="nc" id="L232">						who = 'O';</span>
+				 }
+				 else {
+<span class="fc" id="L235">					 who = 'O';</span>
+				 }
+<span class="fc" id="L237">				out.println();</span>
+<span class="fc" id="L238">				out.println(&quot;It is a Tie.&quot;);</span>
+<span class="fc" id="L239">				winner = &quot;TIE&quot;;</span>
+		}
+		
+
+		
+<span class="fc" id="L244">		return winner;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
